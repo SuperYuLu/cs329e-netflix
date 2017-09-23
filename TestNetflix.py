@@ -24,7 +24,7 @@ class TestNetflix (TestCase):
         w = StringIO()
         netflix_eval(r, w)
         self.assertEqual(
-            w.getvalue(), "10040:\n2.4\n2.4\n2.4\n0.90\n")
+            w.getvalue(), "10040:\n2.913\n2.913\n2.913\n1.03\n")
 
 # ----
 # main
