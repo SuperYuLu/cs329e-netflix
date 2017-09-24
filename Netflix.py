@@ -36,14 +36,11 @@ def create_cache(filename):
 #AVERAGE_RATING = 3.60428996442
 AVERAGE_RATING_CUSTOMER = create_cache("cache-averageCustomerRating.pickle")
 AVERAGE_RATING_MOVIE = create_cache("cache-averageMovieRating.pickle")
-ACTUAL_CUSTOMER_RATING = create_cache(
-    "cache-actualCustomerRating.pickle")
-AVERAGE_MOVIE_RATING_PER_YEAR = create_cache(
-    "cache-movieAverageByYear.pickle")
+ACTUAL_CUSTOMER_RATING = create_cache("cache-actualCustomerRating.pickle")
+AVERAGE_MOVIE_RATING_PER_YEAR = create_cache("cache-movieAverageByYear.pickle")
 YEAR_OF_RATING = create_cache("cache-yearCustomerRatedMovie.pickle")
-CUSTOMER_AVERAGE_RATING_YEARLY = create_cache(
-    "cache-customerAverageRatingByYear.pickle")
-#return ACTUAL_CUSTOMER_RATING, AVERAGE_MOVIE_RATING_PER_YEAR, YEAR_OF_RATING, CUSTOMER_AVERAGE_RATING_YEARLY
+CUSTOMER_AVERAGE_RATING_YEARLY = create_cache("cache-customerAverageRatingByYear.pickle")
+
 '''
 actual_scores_cache ={10040: {2417853: 1, 1207062: 2, 2487973: 3}}
 movie_year_cache = {10040: 1990}
@@ -66,12 +63,14 @@ def netflix_eval(reader, writer) :
 		# It's a movie
             current_movie = line.rstrip(':')
             avg_movie = AVERAGE_RATING_MOVIE[int(current_movie)]
-            prediction = avg_movie
+            #prediction = avg_movie
             writer.write(line)
             writer.write('\n')
         else:
 	    # It's a customer
             current_customer = line
+            avg_customer = AVERAGE_RATING_CUSTOMER[int(current_customer)]
+            prediction = (avg_movie + avg_customer) / 2
             predictions.append(prediction)
             actual.append(ACTUAL_CUSTOMER_RATING[(int(current_customer),int(current_movie))])
             #actual.append(actual_scores_cache[int(current_movie)][int(current_customer)])
