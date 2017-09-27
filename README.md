@@ -1,4 +1,4 @@
-# cs329e-netflix Netflix moving rating prediction project
+# cs329e-netflix Netflix movie rating prediction project
 [![Build Status](https://travis-ci.com/SuperYuLu/cs329e-netflix.svg?token=X7jP7aW4CTQYTcpeZ5qW&branch=master)](https://travis-ci.com/SuperYuLu/cs329e-netflix)
 
 # Author
