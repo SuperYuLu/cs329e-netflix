@@ -83,7 +83,7 @@ def netflix_eval(reader, writer) :
             predictions.append(prediction)
             actual.append(ACTUAL_CUSTOMER_RATING[(int(current_customer),int(current_movie))])
             
-            writer.write(str(prediction)[:5]) 
+            writer.write("%.1f" % prediction) 
             writer.write('\n')	
     # calculate rmse for predications and actuals
     rmse = sqrt(mean(square(subtract(predictions, actual))))
