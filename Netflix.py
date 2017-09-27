@@ -19,6 +19,7 @@ def create_cache(filename):
     returns a dictionary after loading the file or pulling the file from the public_html page
     """
     cache = {}
+    folder = "/u/fares/public_html/netflix-caches/"
     filePath = "/u/fares/public_html/netflix-caches/" + filename
 
     if path.isfile(filePath):
@@ -33,20 +34,12 @@ def create_cache(filename):
     return cache
 
 
-#AVERAGE_RATING = 3.60428996442
-ACTUAL_CUSTOMER_RATING = create_cache("cache-actualCustomerRating.pickle")
-#AVERAGE_RATING_CUSTOMER = create_cache("cache-averageCustomerRating.pickle")
-#AVERAGE_RATING_MOVIE = create_cache("cache-averageMovieRating.pickle")
 
+ACTUAL_CUSTOMER_RATING = create_cache("cache-actualCustomerRating.pickle")
 AVERAGE_MOVIE_RATING_PRE_YEAR = create_cache("cache-movieAverageByYear.pickle")
 YEAR_OF_RATING = create_cache("cache-yearCustomerRatedMovie.pickle")
 CUSTOMER_AVERAGE_RATING_YEARLY = create_cache("cache-customerAverageRatingByYear.pickle")
 
-'''
-actual_scores_cache ={10040: {2417853: 1, 1207062: 2, 2487973: 3}}
-movie_year_cache = {10040: 1990}
-decade_avg_cache = {1990: 2.4}
-'''
 # ------------
 # netflix_eval
 # ------------
@@ -64,20 +57,18 @@ def netflix_eval(reader, writer) :
         if line[-1] == ':':
 	    # It's a movie
             current_movie = line.rstrip(':')
-            
-            #year = [x[1] for x in AVERAGE_MOVIE_RATING_PRE_YEAR.keys() if x[0] ==int( current_movie)]#[0]
-            #avg_movie_in_year = AVERAGE_MOVIE_RATING_PRE_YEAR[(int(current_movie),year[0])]
-            #avg_movie_overall = AVERAGE_RATING_MOVIE[int(current_movie)]
             writer.write(line)
             writer.write('\n')
         else:
 	    # It's a customer
             current_customer = line
+            # Get the year when customer rated this movie
             customer_rating_year = YEAR_OF_RATING[(int(current_customer), int(current_movie))]
+            # Get the average rating the customer give in the year when he/she rated this movie 
             avg_customer_in_year = CUSTOMER_AVERAGE_RATING_YEARLY[(int(current_customer), customer_rating_year)]
-            #avg_movie_overall = AVERAGE_RATING_MOVIE[int(current_movie)]
-            #avg_customer_overall = AVERAGE_RATING_CUSTOMER[int(current_customer)]
+            # Get the average rating this movie got from the same year when this customer give his/her rate 
             avg_movie_in_year = AVERAGE_MOVIE_RATING_PRE_YEAR[(int(current_movie),customer_rating_year)]
+            # Give prediction based on the average movie rating and customer rating in the same year
             prediction = avg_movie_in_year * 0.5  + avg_customer_in_year * 0.5 #0.98
 
             predictions.append(prediction)

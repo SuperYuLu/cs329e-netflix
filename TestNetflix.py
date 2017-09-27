@@ -40,6 +40,7 @@ class TestNetflix (TestCase):
         self.assertEqual(
             w.getvalue(), "9998:\n3.3\n3.4\n3.7\n0.85\n")
 
+
    # ----
 # main
 # ----			
